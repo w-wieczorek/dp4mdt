@@ -1,0 +1,40 @@
+# Binaria i pliki wykonywalne
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+bin/
+build/
+out/
+
+# Katalogi Conan
+conan_cache/
+.conan/
+test_package/build/
+
+# Pliki CMake
+CMakeCache.txt
+CMakeFiles/
+cmake-install.cmake
+cmake_build_debug/
+cmake_build_release/
+
+# Pliki buildu
+*.o
+*.obj
+*.a
+*.lib
+
+# IDE
+.vscode/
+.vs/
+.idea/
+*.user
+*.suo
+*.sln.docstates
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db

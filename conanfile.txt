@@ -1,0 +1,7 @@
+[requires]
+immer/0.8.1
+cli11/2.6.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
