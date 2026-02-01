@@ -1,6 +1,8 @@
 [requires]
 immer/0.8.1
 cli11/2.6.0
+scippp/1.4.0
+spdlog/1.17.0
 
 [generators]
 CMakeDeps

@@ -28,10 +28,10 @@ int Table::num_classes(const immer::set<int>& indices) const {
     return classes.size();
 }
 
-immer::set<int> Table::select_eq(attribute a, value v, immer::set<int>& indices) const {
+immer::set<int> Table::select_eq(test t, immer::set<int>& indices) const {
     immer::set<int> selected;
     for (const auto& index : indices) {
-        if (data[index][a] == v) {
+        if (data[index][t.a] == t.v) {
             selected = selected.insert(index);
         }
     }
