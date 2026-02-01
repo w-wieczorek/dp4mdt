@@ -11,6 +11,8 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
     src/read_data.cpp
     src/mts_ilp.cpp
+    src/dtree.cpp
+    src/mdt_dp.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE 

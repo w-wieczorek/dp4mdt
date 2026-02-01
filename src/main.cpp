@@ -22,23 +22,12 @@ int main(int argc, char** argv) {
     Table tre_data(tre_filename);
     Table test_data(test_filename);
     spdlog::info("Training data has {0:d} rows\n", tre_data.data.size());
-    for (const auto& row : tre_data.data) {
-        for (const auto& cell : row) {
-            spdlog::info("{0:d}", cell);
-        }
-        spdlog::info("\n");
-    }
     spdlog::info("Test data has {0:d} rows\n", test_data.data.size());
-    for (const auto& row : test_data.data) {
-        for (const auto& cell : row) {
-            spdlog::info("{0:d}", cell);
-        }
-        spdlog::info("\n");
-    }
     immer::set<test> selected_tests = build_and_solve_ilp_model(tre_data, true);
     spdlog::info("Selected tests:\n");
     for (const auto& t : selected_tests) {
         spdlog::info("Attribute: {0:d}, Value: {1:d}\n", t.a, t.v);
     }
+    proba_cache();
     return 0;
 }
