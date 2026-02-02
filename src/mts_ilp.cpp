@@ -38,7 +38,7 @@ immer::set<test> build_and_solve_ilp_model(const Table& dt, bool debug_mode) {
         model.setParam(params::DISPLAY::VERBLEVEL, 0);
     std::set<test, TestComparator> all_tests;
     input_all_tests(dt, all_tests);
-    spdlog::debug("Total number of tests: {0:d}", all_tests.size());
+    spdlog::info("Total number of tests: {0:d}", all_tests.size());
     std::map<test, Var, TestComparator> z;
     for (const auto& t : all_tests) {
         std::string name = "z_" + std::to_string(t.a) + "_" + std::to_string(t.v);

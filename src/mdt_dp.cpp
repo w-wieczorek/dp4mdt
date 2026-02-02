@@ -3,6 +3,7 @@
 #include <immer/set.hpp>
 #include <vector>
 #include <utility>
+#include <algorithm>
 #include <unordered_map>
 
 typedef struct _args {
@@ -17,7 +18,7 @@ template<>
 struct std::hash<immer::set<int>> {
     std::size_t operator()(const immer::set<int>& s) const noexcept {
         std::vector<int> vec(s.begin(), s.end());
-        vec.sort();
+        std::sort(vec.begin(), vec.end());
         unsigned long long r = 11343719645984807545ull;
         unsigned long long h = 0;
         for (int i : vec) {
@@ -29,7 +30,7 @@ struct std::hash<immer::set<int>> {
 };
 
 template<>
-struct hash<args> {
+struct std::hash<args> {
     std::size_t operator()(const args& a) const noexcept {
         std::size_t h1 = std::hash<int>()(a.t.a);
         std::size_t h2 = std::hash<int>()(a.t.v);

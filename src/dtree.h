@@ -11,5 +11,5 @@ typedef struct _node {
 } node;
 
 void free_tree(node* root);
-void print_tree(node* root, int depth = 0);
+void print_tree(node* root, int depth);
 int classify(node* root, const Table& dtable, int idx);

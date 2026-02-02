@@ -1,5 +1,6 @@
 #include "read_data.h"
 #include "mts_ilp.h"
+#include "mdt_dp.h"
 #include "spdlog/spdlog.h"
 #include <CLI/CLI.hpp>
 
@@ -15,7 +16,8 @@ int main(int argc, char** argv) {
     app.add_option("-v,--verbosity", verbosity, "Logging verbosity level (debug, info)")
         ->default_val("info");
     CLI11_PARSE(app, argc, argv);
-    if (verbosity == "debug")
+    bool debug_mode = (verbosity == "debug");
+    if (debug_mode)
         spdlog::set_level(spdlog::level::debug);
     else
         spdlog::set_level(spdlog::level::info);
@@ -23,7 +25,7 @@ int main(int argc, char** argv) {
     Table test_data(test_filename);
     spdlog::info("Training data has {0:d} rows\n", tre_data.data.size());
     spdlog::info("Test data has {0:d} rows\n", test_data.data.size());
-    immer::set<test> selected_tests = build_and_solve_ilp_model(tre_data, true);
+    immer::set<test> selected_tests = build_and_solve_ilp_model(tre_data, debug_mode);
     spdlog::info("Selected tests:\n");
     for (const auto& t : selected_tests) {
         spdlog::info("Attribute: {0:d}, Value: {1:d}\n", t.a, t.v);
