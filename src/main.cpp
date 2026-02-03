@@ -23,13 +23,13 @@ int main(int argc, char** argv) {
         spdlog::set_level(spdlog::level::info);
     Table tre_data(tre_filename);
     Table test_data(test_filename);
-    spdlog::info("Training data has {0:d} rows\n", tre_data.data.size());
-    spdlog::info("Test data has {0:d} rows\n", test_data.data.size());
+    spdlog::info("Training data has {0:d} rows", tre_data.data.size());
+    spdlog::info("Test data has {0:d} rows", test_data.data.size());
     immer::set<test> selected_tests = build_and_solve_ilp_model(tre_data, debug_mode);
-    spdlog::info("Selected tests:\n");
+    spdlog::info("Selected tests:");
     for (const auto& t : selected_tests) {
-        spdlog::info("Attribute: {0:d}, Value: {1:d}\n", t.a, t.v);
+        spdlog::info("Attribute: {0:d}, Value: {1:d}", t.a, t.v);
     }
-    proba_cache();
+    node* decision_tree = build_decision_tree(tre_data, selected_tests);
     return 0;
 }
