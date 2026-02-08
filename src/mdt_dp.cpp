@@ -89,15 +89,66 @@ int m(test t, immer::set<int> indices, const Table& dtable, const immer::set<tes
     return result;
 }
 
+node* reconstruct_tree(const args& a, const Table& dtable, const immer::set<test>& selected_tests) {
+    if (cache[a] == 1) {
+        int class_label = dtable.data[a.indices.begin()].back();
+        return new node{class_label, nullptr, nullptr};
+    }
+    immer::set<int> right_indices = a.indices;
+    for (int idx : a.indices) {
+        if (a.t.v != dtable.data[idx][a.t.a]) {
+            right_indices = right_indices.erase(idx);
+        }
+    }
+    immer::set<int> left_indices = a.indices;
+    for (int idx : right_indices) {
+        left_indices = left_indices.erase(idx);
+    }
+    args best_left_args;
+    int best_left_score = INT32_MAX;
+    for (const test& st : selected_tests) {
+        if (st == a.t) {
+            continue;
+        }
+        int score = m(st, left_indices, dtable, selected_tests);
+        if (score < best_left_score) {
+            best_left_score = score;
+            best_left_args = args{st, left_indices};
+        }
+    }
+    args best_right_args;
+    int best_right_score = INT32_MAX;
+    for (const test& st : selected_tests) {
+        if (st == a.t) {
+            continue;
+        }
+        int score = m(st, right_indices, dtable, selected_tests);
+        if (score < best_right_score) {
+            best_right_score = score;
+            best_right_args = args{st, right_indices};
+        }
+    }
+    node* left_child = reconstruct_tree(best_left_args);
+    node* right_child = reconstruct_tree(best_right_args);
+    return new node{a.t, left_child, right_child};
+}   
+
 node* build_decision_tree(const Table& dtable, const immer::set<test>& selected_tests) {
+    cache.clear();
+    int best_score = INT32_MAX;
+    args best_args;
     for (const test& st : selected_tests) {
         immer::set<int> all_indices;
         for (size_t i = 0; i < dtable.data.size(); ++i) {
             all_indices = all_indices.insert(static_cast<int>(i));
         }
         int score = m(st, all_indices, dtable, selected_tests);
-        spdlog::info("Test (a={}, v={}) has score {}", st.a, st.v, score);
+        spdlog::debug("Test (a={}, v={}) has score {}", st.a, st.v, score);
+        if (score < best_score) {
+            best_score = score;
+            best_args = args{st, all_indices};
+        }
     }
-    return nullptr;
+    return reconstruct_tree(best_args, dtable, selected_tests);
 }
 

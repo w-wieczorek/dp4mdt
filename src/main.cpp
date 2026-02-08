@@ -31,5 +31,7 @@ int main(int argc, char** argv) {
         spdlog::info("Attribute: {0:d}, Value: {1:d}", t.a, t.v);
     }
     node* decision_tree = build_decision_tree(tre_data, selected_tests);
+    print_tree(decision_tree, 0);
+    free_tree(decision_tree);
     return 0;
 }
