@@ -3,23 +3,31 @@
 #include "mdt_dp.h"
 #include "spdlog/spdlog.h"
 #include <CLI/CLI.hpp>
-#include "evaluation.hpp"
+#include <iostream>
+#include <vector>
 
-void print_classification_results(node* decision_tree, const Table& test_data, bool debug_mode) {
+void print_classification_results(node* decision_tree, const Table& test_data) {
     int n_observations = static_cast<int>(test_data.data.size());
-    vector<int> targets(n_observations);
-    vector<int> outputs(n_observations);
-    int correct = 0;
+    std::vector<int> targets(n_observations);
+    std::vector<int> outputs(n_observations);
     for (int i = 0; i < n_observations; ++i) {
         int predicted = classify(decision_tree, test_data, i);
         int actual = test_data.data[i].back();
         targets[i] = actual;
         outputs[i] = predicted;
     }
-    Confusion confusion = Confusion(targets, outputs);
-    if (debug_mode) confusion.print();
-    Evaluation evaluation = Evaluation(confusion);
-    evaluation.print();
+    spdlog::info("Targets:");
+    std::cout << "[ ";
+    for (int c : targets) {
+        std::cout << c << ", ";
+    }
+    std::cout << "]\n";
+    spdlog::info("Outputs:");
+    std::cout << "[ ";
+    for (int c : outputs) {
+        std::cout << c << ", ";
+    }
+    std::cout << "]\n";
 }
 
 int main(int argc, char** argv) {
@@ -48,7 +56,7 @@ int main(int argc, char** argv) {
     if (debug_mode) print_tree(decision_tree, 0);
     spdlog::info("Decision tree height: {0:d}", height(decision_tree));
     spdlog::info("Decision tree size: {0:d}", tree_size(decision_tree));
-    print_classification_results(decision_tree, test_data, debug_mode);
+    print_classification_results(decision_tree, test_data);
     free_tree(decision_tree);
     return 0;
 }
