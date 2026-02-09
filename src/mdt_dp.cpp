@@ -91,7 +91,7 @@ int m(test t, immer::set<int> indices, const Table& dtable, const immer::set<tes
 
 node* reconstruct_tree(const args& a, const Table& dtable, const immer::set<test>& selected_tests) {
     if (cache[a] == 1) {
-        int class_label = dtable.data[a.indices.begin()].back();
+        int class_label = dtable.data[*(a.indices.begin())].back();
         return new node{class_label, nullptr, nullptr};
     }
     immer::set<int> right_indices = a.indices;
@@ -128,8 +128,8 @@ node* reconstruct_tree(const args& a, const Table& dtable, const immer::set<test
             best_right_args = args{st, right_indices};
         }
     }
-    node* left_child = reconstruct_tree(best_left_args);
-    node* right_child = reconstruct_tree(best_right_args);
+    node* left_child = reconstruct_tree(best_left_args, dtable, selected_tests);
+    node* right_child = reconstruct_tree(best_right_args, dtable, selected_tests);
     return new node{a.t, left_child, right_child};
 }   
 

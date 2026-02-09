@@ -33,3 +33,15 @@ void print_tree(node* root, int depth = 0) {
         std::cout << "Class: " << class_label << "\n";
     }
 }
+
+int height(node* root) {
+    if (root == nullptr) return -1;
+    int left_height = height(root->left);
+    int right_height = height(root->right);
+    return 1 + std::max(left_height, right_height);
+}
+
+int tree_size(node* root) {
+    if (root == nullptr) return 0;
+    return 1 + tree_size(root->left) + tree_size(root->right);
+}
