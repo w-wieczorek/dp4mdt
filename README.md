@@ -1,6 +1,6 @@
 # dp4mdt
 
-Decision tree generation from decision tables using an ILP-based test selection approach.
+Decision tree generation from decision tables using an ILP-based test selection and dynamic programming.
 
 ## Installation
 
